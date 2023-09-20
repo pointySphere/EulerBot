@@ -4,7 +4,7 @@ from discord.ext import commands
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-import flask
+from flask import Flask
 from sympy.solvers import solve
 from sympy import Symbol, divisors
 from sympy.ntheory import isprime, factorint
