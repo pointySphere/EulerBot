@@ -1,12 +1,12 @@
 import os
 import discord
 from discord.ext import commands
-from keep_alive import keep_alive
 import math
 import matplotlib.pyplot as plt
 import numpy as np
 from sympy.solvers import solve
-from sympy import Symbol
+from sympy import Symbol, divisors
+from sympy.ntheory import primefactors, isprime
 
 from asteval import Interpreter
 aeval = Interpreter()
@@ -62,10 +62,33 @@ async def solve_(ctx, equation, symbol):
     except:
         await ctx.send("There's been an error! Modify your input.")
 
+@client.command(name="isprime")
+async def isprime_(ctx, n):
+    try:
+        if isprime(int(n)) = True:
+            await ctx.send(f"{n} is prime.")
+        else:
+            await ctx.send(f"{n} is not prime.")
+    except:
+        await ctx.send("There's been an error! Modify your input.")
+
+@client.command(name="primefactor")
+async def primefactor(ctx, n):
+    try:
+        await ctx.send(f"The prime factors of {n} are {primefactors(n)})
+    except:
+        await ctx.send("There's been an error! Modify your input.")
+
+@client.command(name="divisors")
+async def primefactor(ctx, n):
+    try:
+        await ctx.send(f"The divisors of {n} are {divisors(n)})
+    except:
+        await ctx.send("There's been an error! Modify your input.")
+                       
 @client.command(name="goat")
 async def goat(ctx):
     await ctx.send("Euler is the Greatest of All Time in mathematics.")
 
-keep_alive()
 token = os.environ['DISCORD_BOT_SECRET']
 client.run(token)
