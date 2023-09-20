@@ -16,11 +16,13 @@ import wolframalpha
 appid = os.environ['APP_ID']
 app = wolframalpha.Client(appid)
 
+port = os.environ['PORT']
+
 app = Flask('')
 
 @app.route('/')
 
-def run(): app.run(host="0.0.0.0", port=10000)
+def run(): app.run(host="0.0.0.0", port=port)
 
 def keep_alive(): 
     server = Thread(target=run) 
