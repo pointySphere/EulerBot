@@ -75,14 +75,16 @@ async def isprime_(ctx, n):
 @client.command(name="primefactor")
 async def primefactor(ctx, n):
     try:
-        await ctx.send(f"The prime factors of {n} are {primefactors(n)})
+        x = primefactors(n)
+        await ctx.send(f"The prime factors of {n} are {x})
     except:
         await ctx.send("There's been an error! Modify your input.")
 
 @client.command(name="divisors")
 async def primefactor(ctx, n):
     try:
-        await ctx.send(f"The divisors of {n} are {divisors(n)})
+        x = divisors(n)
+        await ctx.send(f"The divisors of {n} are {x})
     except:
         await ctx.send("There's been an error! Modify your input.")
                        
