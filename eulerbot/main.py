@@ -65,7 +65,7 @@ async def solve_(ctx, equation, symbol):
 @client.command(name="isprime")
 async def isprime_(ctx, n):
     try:
-        if isprime(int(n)) = True:
+        if isprime(int(n)) == True:
             await ctx.send(f"{n} is prime.")
         else:
             await ctx.send(f"{n} is not prime.")
