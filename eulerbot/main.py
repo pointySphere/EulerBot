@@ -76,7 +76,7 @@ async def isprime_(ctx, n):
 async def primefactor(ctx, n):
     try:
         x = primefactors(n)
-        await ctx.send(f"The prime factors of {n} are {x})
+        await ctx.send(f"The prime factors of {n} are {x}")
     except:
         await ctx.send("There's been an error! Modify your input.")
 
@@ -84,7 +84,7 @@ async def primefactor(ctx, n):
 async def primefactor(ctx, n):
     try:
         x = divisors(n)
-        await ctx.send(f"The divisors of {n} are {x})
+        await ctx.send(f"The divisors of {n} are {x}")
     except:
         await ctx.send("There's been an error! Modify your input.")
                        
