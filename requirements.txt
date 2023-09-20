@@ -1,7 +1,7 @@
 asteval
-discord
 flask
 matplotlib
 numpy
+py-cord
 sympy
 wolframalpha
