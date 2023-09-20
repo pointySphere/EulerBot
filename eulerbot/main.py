@@ -4,6 +4,7 @@ from discord.ext import commands
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+import flask
 from sympy.solvers import solve
 from sympy import Symbol, divisors
 from sympy.ntheory import isprime, factorint
@@ -14,6 +15,16 @@ aeval = Interpreter()
 import wolframalpha
 appid = os.environ['APP_ID']
 app = wolframalpha.Client(appid)
+
+app = Flask('')
+
+@app.route('/')
+
+def run(): app.run(host="0.0.0.0", port=8000)
+
+def keep_alive(): 
+    server = Thread(target=run) 
+    server.start()
 
 client = commands.Bot(command_prefix="/", intents=discord.Intents.all())
 
