@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sympy.solvers import solve
 from sympy import Symbol, divisors
-from sympy.ntheory import primefactors, isprime
+from sympy.ntheory import isprime, factorint
 
 from asteval import Interpreter
 aeval = Interpreter()
@@ -65,23 +65,32 @@ async def solve_(ctx, equation, symbol):
 @client.command(name="isprime")
 async def isprime_(ctx, n):
     try:
-        if isprime(int(n)) == True:
+        if isprime(int(n)) is True:
             await ctx.send(f"{n} is prime.")
         else:
             await ctx.send(f"{n} is not prime.")
     except:
         await ctx.send("There's been an error! Modify your input.")
 
-@client.command(name="primefactor")
-async def primefactor(ctx, n):
+@client.command(name="primefactor", aliases=["primefactorization", "primefact"])
+async def factorize(ctx, n, exp=False, symbol="^"):
     try:
-        x = primefactors(n)
-        await ctx.send(f"The prime factors of {n} are {x}")
+        dict = factorint(n)
+        if exp is False: 
+            x = ' * '.join([f'{key} * {value}' for key, value in dict.items() for _ in range(value)])
+            await ctx.send(f"The prime factorization of {n} is {x}")
+        elif exp is True:
+            if symbol == "^":
+                x = ' * '.join([f'{key}^{value}' if value > 1 else f'{key}' for key, value in dict.items()])
+                await ctx.send(f"The prime factorization of {n} is {x}")
+            elif symbol == "**":
+                x = ' * '.join([f'{key}{"**" + str(value) if value > 1 else ""}' for key, value in dict.items()])
+                await ctx.send(f"The prime factorization of {n} is {x}")  
     except:
         await ctx.send("There's been an error! Modify your input.")
 
-@client.command(name="divisors")
-async def primefactor(ctx, n):
+@client.command(name="divisors", aliases=["factor", "fact"])
+async def divisors_(ctx, n):
     try:
         x = divisors(n)
         await ctx.send(f"The divisors of {n} are {x}")
