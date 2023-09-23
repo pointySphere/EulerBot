@@ -91,28 +91,22 @@ async def isprime_(ctx, n):
 
 @client.command(name="primefactor", aliases=["primefactorization", "primefact"])
 async def factorize(ctx, n, exp=False, symbol="^"):
-    try:
-        dict = factorint(n)
-        if exp is False: 
-            x = ' * '.join([f'{key} * {value}' for key, value in dict.items() for _ in range(value)])
+    dict = factorint(n)
+    if exp is False: 
+        x = ' * '.join([f'{key} * {value}' for key, value in dict.items() for _ in range(value)])
+        await ctx.send(f"The prime factorization of {n} is {x}")
+    elif exp is True:
+        if symbol == "^":
+            x = ' * '.join([f'{key}^{value}' if value > 1 else f'{key}' for key, value in dict.items()])
             await ctx.send(f"The prime factorization of {n} is {x}")
-        elif exp is True:
-            if symbol == "^":
-                x = ' * '.join([f'{key}^{value}' if value > 1 else f'{key}' for key, value in dict.items()])
-                await ctx.send(f"The prime factorization of {n} is {x}")
-            elif symbol == "**":
-                x = ' * '.join([f'{key}{"**" + str(value) if value > 1 else ""}' for key, value in dict.items()])
-                await ctx.send(f"The prime factorization of {n} is {x}")  
-    except:
-        await ctx.send("There's been an error! Modify your input.")
+        elif symbol == "**":
+            x = ' * '.join([f'{key}{"**" + str(value) if value > 1 else ""}' for key, value in dict.items()])
+            await ctx.send(f"The prime factorization of {n} is {x}")  
 
 @client.command(name="divisors", aliases=["factor", "fact"])
 async def divisors_(ctx, n):
-    try:
-        x = divisors(n)
-        await ctx.send(f"The divisors of {n} are {x}")
-    except:
-        await ctx.send("There's been an error! Modify your input.")
+    x = divisors(n)
+    await ctx.send(f"The divisors of {n} are {x}")
                        
 @client.command(name="goat")
 async def goat(ctx):
