@@ -9,6 +9,7 @@ from threading import Thread
 from sympy.solvers import solve
 from sympy import Symbol, divisors
 from sympy.ntheory import isprime, factorint
+from sympy.ntheory.factor_ import totient
 
 from asteval import Interpreter
 aeval = Interpreter()
@@ -107,6 +108,14 @@ async def divisors_(ctx, n):
     try:
         x = divisors(int(n))
         await ctx.send(f"The divisors of {n} are {x}")
+    except:
+        await ctx.send("There's been an error! Modify your input.")
+
+@bot.command(name="totient", aliases=["phi", "Φ"])
+async def phi(ctx, n):
+    try:
+        x = totient(n)
+        await ctx.send(f"Φ({n}) = {x}")
     except:
         await ctx.send("There's been an error! Modify your input.")
                        
