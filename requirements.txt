@@ -1,5 +1,6 @@
 asteval
 flask
+gunicorn
 matplotlib
 numpy
 py-cord
