@@ -14,8 +14,8 @@ from asteval import Interpreter
 aeval = Interpreter()
 
 import wolframalpha
-appid = os.environ['APP_ID']
-app = wolframalpha.Client(appid)
+client_id = os.environ['CLIENT_ID']
+client = wolframalpha.Client(client_id)
 
 theport = os.environ['PORT']
 
@@ -32,14 +32,14 @@ def keep_alive():
   server = Thread(target=run)
   server.start()
 
-client = commands.Bot(command_prefix="/", intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="/", intents=discord.Intents.all())
 
-@client.event
+@bot.event
 async def on_ready():
     print("I'm in")
-    print(client.user)
+    print(bot.user)
 
-@client.command(name="evaluate", aliases=["eval"])
+@bot.command(name="evaluate", aliases=["eval"])
 async def evaluate(ctx, expr):
     try:
         x = aeval(expr)
@@ -47,7 +47,7 @@ async def evaluate(ctx, expr):
     except:
         await ctx.send("There's been an error! Modify your input.")
 
-@client.command(name='graph')
+@bot.command(name='graph')
 async def graph(ctx, expr, grid=True):
     try:
         x = np.linspace(-10, 10, 1000)
@@ -61,16 +61,16 @@ async def graph(ctx, expr, grid=True):
     except:
         await ctx.send("There's been an error! Modify your input.")
 
-@client.command(name="query", aliases=["ask"])
+@bot.command(name="query", aliases=["ask"])
 async def query(ctx, question):
-    res = app.query(question)
+    res = client.query(question)
     if res['@success'] == 'false':
         await ctx.send('I was unable to find an answer to your question.')
     else:
         answer = next(res.results).text
         await ctx.send(f'The answer to your question is {answer}')
 
-@client.command(name="solve")
+@bot.command(name="solve")
 async def solve_(ctx, equation, symbol):
     try:
         x = Symbol(symbol)
@@ -79,7 +79,7 @@ async def solve_(ctx, equation, symbol):
     except:
         await ctx.send("There's been an error! Modify your input.")
 
-@client.command(name="isprime")
+@bot.command(name="isprime")
 async def isprime_(ctx, n):
     try:
         if isprime(int(n)) is True:
@@ -89,28 +89,30 @@ async def isprime_(ctx, n):
     except:
         await ctx.send("There's been an error! Modify your input.")
 
-@client.command(name="primefactor", aliases=["primefactorization", "primefact"])
-async def factorize(ctx, n, exp=False, symbol="^"):
-    dict = factorint(n)
-    if exp is False: 
-        x = ' * '.join([f'{key} * {value}' for key, value in dict.items() for _ in range(value)])
-        await ctx.send(f"The prime factorization of {n} is {x}")
-    elif exp is True:
-        if symbol == "^":
+@bot.command(name="primefactor", aliases=["primefactorization", "primefact"])
+async def factorize(ctx, n, exp=False):
+    try:
+        dict = factorint(int(n))
+        if exp is False: 
+            x = ' * '.join([' * '.join([str(key)] * value) for key, value in dict.items()])
+            await ctx.send(f"The prime factorization of {n} is {x}")
+        else:
             x = ' * '.join([f'{key}^{value}' if value > 1 else f'{key}' for key, value in dict.items()])
             await ctx.send(f"The prime factorization of {n} is {x}")
-        elif symbol == "**":
-            x = ' * '.join([f'{key}{"**" + str(value) if value > 1 else ""}' for key, value in dict.items()])
-            await ctx.send(f"The prime factorization of {n} is {x}")  
+    except:
+        await ctx.send("There's been an error! Modify your input.")
 
-@client.command(name="divisors", aliases=["factor", "fact"])
+@bot.command(name="divisors", aliases=["factor", "fact"])
 async def divisors_(ctx, n):
-    x = divisors(n)
-    await ctx.send(f"The divisors of {n} are {x}")
+    try:
+        x = divisors(int(n))
+        await ctx.send(f"The divisors of {n} are {x}")
+    except:
+        await ctx.send("There's been an error! Modify your input.")
                        
-@client.command(name="goat")
+@bot.command(name="goat")
 async def goat(ctx):
     await ctx.send("Euler is the Greatest of All Time in mathematics.")
 
 token = os.environ['DISCORD_BOT_SECRET']
-client.run(token)
+bot.run(token)
