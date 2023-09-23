@@ -5,6 +5,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 from flask import Flask
+from threading import Thread
 from sympy.solvers import solve
 from sympy import Symbol, divisors
 from sympy.ntheory import isprime, factorint
@@ -21,12 +22,15 @@ theport = os.environ['PORT']
 app = Flask('')
 
 @app.route('/')
+def main():
+  return "Your Bot Is Ready"
 
-def run(): app.run(host="0.0.0.0", port=theport)
+def run():
+  app.run(host="0.0.0.0", port=theport)
 
-def keep_alive(): 
-    server = Thread(target=run) 
-    server.start()
+def keep_alive():
+  server = Thread(target=run)
+  server.start()
 
 client = commands.Bot(command_prefix="/", intents=discord.Intents.all())
 
