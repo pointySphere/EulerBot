@@ -19,7 +19,7 @@ app = wolframalpha.Client(appid)
 
 theport = os.environ['PORT']
 
-app = Flask('')
+app = Flask(__name__)
 
 @app.route('/')
 def main():
